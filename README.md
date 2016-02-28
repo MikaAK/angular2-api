@@ -76,15 +76,15 @@ after doing this `get/put/post/patch/delete/create/read/update/destroy` will all
 
 *For `url` you can pass an array of strings or a string*
 
-`ApiService.get(resource, url, [params])`
-`ApiService.put(resource, url, data, [params])`
-`ApiService.patch(resource, url, data, [params])`
-`ApiService.post(resource, url, data, [params])`
-`ApiService.delete(resource, url, [params])`
-`ApiService.find(resource, id, [params])`
-`ApiService.findAll(resource, [params])`
-`ApiService.create(resource, data, [params])`
-`ApiService.update(resource, [data, params])`
-`ApiService.destroy(resource, [id, params])`
+- `ApiService.get(resource, url, [params])`
+- `ApiService.put(resource, url, data, [params])`
+- `ApiService.patch(resource, url, data, [params])`
+- `ApiService.post(resource, url, data, [params])`
+- `ApiService.delete(resource, url, [params])`
+- `ApiService.find(resource, id, [params])`
+- `ApiService.findAll(resource, [params])`
+- `ApiService.create(resource, data, [params])`
+- `ApiService.update(resource, [data, params])`
+- `ApiService.destroy(resource, [id, params])`
 
 

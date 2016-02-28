@@ -1,6 +1,8 @@
 import {Http, RequestOptionsArgs} from 'angular2/http'
 import {Observable} from 'rxjs/Observable'
 
+export const provideApiService
+
 export interface ApiResource {
   idAttribute?: string
   endpoint: string

@@ -34,6 +34,15 @@ var config = {
     }]
   },
 
+  externals: [
+    'angular2/core',
+    'angular2/http',
+    'rxjs/add/operator/map',
+    'rxjs/add/operator/mergeMap',
+    'rxjs/Observable',
+    'rxjs/observable'
+  ],
+
   resolve: {
     extensions: ['.ts', '.js','']
   }

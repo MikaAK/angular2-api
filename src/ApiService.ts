@@ -48,6 +48,19 @@ export class ApiService {
 
   constructor(private _http: Http) {}
 
+  public initialize(resource: ApiResource) {
+    resource.get = this.get.bind(this, resource)
+    resource.post = this.post.bind(this, resource)
+    resource.patch = this.patch.bind(this, resource)
+    resource.put = this.put.bind(this, resource)
+    resource.delete = this.delete.bind(this, resource)
+    resource.find = this.find.bind(this, resource)
+    resource.findAll = this.findAll.bind(this, resource)
+    resource.create = this.create.bind(this, resource)
+    resource.update = this.update.bind(this, resource)
+    resource.destroy = this.destroy.bind(this, resource)
+  }
+
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = Array.isArray(url) ? url.join('/') : url
 

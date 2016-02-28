@@ -73,6 +73,7 @@ after doing this `get/put/post/patch/delete/create/read/update/destroy` will all
 
 ## Methods
 ***If you use `ApiService.initialize()` and setup you will not have to pass the resource in to apiService***
+
 *For `url` you can pass an array of strings or a string*
 
 `ApiService.get(resource, url, [params])`

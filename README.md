@@ -49,8 +49,23 @@ import {ApiResource, ApiService} from 'angular2-api'
 
 @Injectable()
 export class MyApi implements ApiResource {
+  endpoint: string = 'my-endpoint'
+  idAttribute: string = 'testId' // If not provided will use 'id'
+
   constructor(apiService: ApiService) {
     apiService.initialize(this)
+  }
+
+  deserialize(data) {
+    return data
+  }
+
+  serialize(data) {
+    return data
+  }
+
+  serializeParams(params) {
+    return params
   }
 }
 ```

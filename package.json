@@ -54,6 +54,7 @@
     "zone.js": "^0.5.15"
   },
   "peerDependencies": {
+    "rxjs": "^5.0.0-beta.2",
     "angular2": "^2.0.0-beta.7"
   }
 }

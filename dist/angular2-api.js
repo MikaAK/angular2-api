@@ -121,6 +121,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(ApiService, [{
+	        key: "initialize",
+	        value: function initialize(resource) {
+	            resource.get = this.get.bind(this, resource);
+	            resource.post = this.post.bind(this, resource);
+	            resource.patch = this.patch.bind(this, resource);
+	            resource.put = this.put.bind(this, resource);
+	            resource.delete = this.delete.bind(this, resource);
+	            resource.find = this.find.bind(this, resource);
+	            resource.findAll = this.findAll.bind(this, resource);
+	            resource.create = this.create.bind(this, resource);
+	            resource.update = this.update.bind(this, resource);
+	            resource.destroy = this.destroy.bind(this, resource);
+	        }
+	    }, {
 	        key: "createUrl",
 	        value: function createUrl(resource, url) {
 	            var qUrl = Array.isArray(url) ? url.join('/') : url;
@@ -197,6 +211,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "destroy",
 	        value: function destroy(resource, id, params) {
+	            if ((typeof id === "undefined" ? "undefined" : _typeof(id)) === 'object') {
+	                params = id;
+	                id = null;
+	            }
 	            return this.delete(resource, id ? id : '', params);
 	        }
 	    }, {

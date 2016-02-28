@@ -67,63 +67,68 @@ export class ApiService {
     return addSlash(resource.endpoint) + addSlash(this.basePath) + url
   }
 
-  public get(resource, url, params?: RequestOptionsArgs): Observable<any> {
+  public get(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
     return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public put(resource, url, data: any, params?: RequestOptionsArgs): Observable<any> {
+  public put(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public patch(resource, url, data: any, params?: RequestOptionsArgs): Observable<any> {
+  public patch(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public post(resource, url, data: any, params?: RequestOptionsArgs): Observable<any> {
+  public post(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public delete(resource, url, params?: RequestOptionsArgs): Observable<any> {
+  public delete(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
     return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public find(resource, id: number|string, params) {
+  public find(resource: ApiResource, id: number|string, params?) {
     if (!id)
       throw new Error('You must provide an id')
 
-    return this.get(resource, id, params)
+    return this.get(resource, <string>id, params)
   }
 
-  public findAll(resource, params) {
+  public findAll(resource: ApiResource, params?) {
     return this.get(resource, '', params)
   }
 
-  public create(resource, data, params) {
+  public create(resource: ApiResource, data?, params?) {
     return this.post(resource, '', data, params)
   }
 
-  public update(resource, data, params) {
+  public update(resource: ApiResource, data?, params?) {
     let id = data[resource.idAttribute],
         url = id ? id : ''
 
     return this.put(resource, url, data, params)
   }
 
-  public destroy(resource, id, params) {
-    return this.delete(resource, id ? id : '', params)
+  public destroy(resource: ApiResource, id?: number|string, params?) {
+    if (typeof id === 'object') {
+      params = id
+      id = null
+    }
+
+    return this.delete(resource, id ? <string>id : '', params)
   }
 
-  private _serialize(resource, data): any {
+  private _serialize(resource: ApiResource, data): any {
     var nData = toJSON(data)
 
     return resource.serialize ? resource.serialize(nData) : nData

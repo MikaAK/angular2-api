@@ -5,7 +5,15 @@ import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mergeMap'
 
-const addSlash = (url: string): string => url.endsWith('/') ? url : `${url}/`
+const removeSlashes = (url: string): string => {
+  if (url.startsWith('/'))
+    url = url.slice(1, url.length - 1)
+
+  if (url.endsWith('/'))
+    url = url.slice(0, url.length - 2)
+
+  return url
+}
 
 const toJSON = (data: any): string => {
   try {
@@ -64,7 +72,7 @@ export class ApiService {
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = Array.isArray(url) ? url.join('/') : url
 
-    return addSlash(resource.endpoint) + addSlash(this.basePath) + url
+    return `${removeSlashes(resource.endpoint)}/${removeSlashes(this.basePath)}/${removeSlashes(qUrl)}`
   }
 
   public get(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {

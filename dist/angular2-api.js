@@ -103,8 +103,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var http_1 = __webpack_require__(2);
 	__webpack_require__(4);
 	__webpack_require__(5);
-	var addSlash = function addSlash(url) {
-	    return url.endsWith('/') ? url : url + "/";
+	var removeSlashes = function removeSlashes(url) {
+	    if (url.startsWith('/')) url = url.slice(1, url.length - 1);
+	    if (url.endsWith('/')) url = url.slice(0, url.length - 2);
+	    return url;
 	};
 	var toJSON = function toJSON(data) {
 	    try {
@@ -155,7 +157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "createUrl",
 	        value: function createUrl(resource, url) {
 	            var qUrl = Array.isArray(url) ? url.join('/') : url;
-	            return addSlash(resource.endpoint) + addSlash(this.basePath) + url;
+	            return removeSlashes(resource.endpoint) + "/" + removeSlashes(this.basePath) + "/" + removeSlashes(qUrl);
 	        }
 	    }, {
 	        key: "get",

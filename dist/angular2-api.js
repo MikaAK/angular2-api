@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"), require("rxjs/add/operator/mergeMap"));
+		module.exports = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"));
 	else if(typeof define === 'function' && define.amd)
-		define(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxjs/add/operator/mergeMap"], factory);
+		define(["angular2/core", "angular2/http", "rxjs/add/operator/map"], factory);
 	else if(typeof exports === 'object')
-		exports["angular2-api"] = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"), require("rxjs/add/operator/mergeMap"));
+		exports["angular2-api"] = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"));
 	else
-		root["angular2-api"] = factory(root["angular2/core"], root["angular2/http"], root["rxjs/add/operator/map"], root["rxjs/add/operator/mergeMap"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_5__) {
+		root["angular2-api"] = factory(root["angular2/core"], root["angular2/http"], root["rxjs/add/operator/map"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -60,8 +60,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var http_1 = __webpack_require__(2);
 	var ApiService_1 = __webpack_require__(3);
 	exports.ApiService = ApiService_1.ApiService;
-	exports.provideApiService = function () {
-	  return [core_1.provide(ApiService_1.ApiService, { deps: [http_1.Http] })];
+	var wrapMethod = function wrapMethod(api, method, wrapper) {
+	    var oldMethod = api[method].bind(api);
+	    api[method] = function () {
+	        return wrapper(oldMethod.apply(undefined, arguments));
+	    };
+	};
+	var createApiService = function createApiService(_ref) {
+	    var basePath = _ref.basePath;
+	    var deserialize = _ref.deserialize;
+	    var serialize = _ref.serialize;
+	    var serializeParams = _ref.serializeParams;
+
+	    return function (http) {
+	        var api = new ApiService_1.ApiService(http);
+	        if (basePath) api.basePath = basePath;
+	        if (deserialize) wrapMethod(api, '_deserialize', deserialize);
+	        if (serialize) wrapMethod(api, '_serialize', serialize);
+	        if (serializeParams) wrapMethod(api, '_serializeParams', serializeParams);
+	        return api;
+	    };
+	};
+	exports.provideApiService = function (config) {
+	    return [core_1.provide(ApiService_1.ApiService, { useFactory: createApiService(config), deps: [http_1.Http] })];
 	};
 
 /***/ },
@@ -102,10 +123,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var core_1 = __webpack_require__(1);
 	var http_1 = __webpack_require__(2);
 	__webpack_require__(4);
-	__webpack_require__(5);
 	var removeSlashes = function removeSlashes(url) {
-	    if (url.startsWith('/')) url = url.slice(1, url.length - 1);
-	    if (url.endsWith('/')) url = url.slice(0, url.length - 2);
+	    if (url.startsWith('/')) url = url.slice(1, url.length);
+	    if (url.endsWith('/')) url = url.slice(0, url.length - 1);
 	    return url;
 	};
 	var toJSON = function toJSON(data) {
@@ -122,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return params;
 	};
 	var deserializeResponse = function deserializeResponse(resp) {
-	    var contentType = resp && resp.headers && resp.headers.get('Content-Type');
+	    var contentType = resp && resp.headers && (resp.headers.get('content-type') || resp.headers.get('Content-Type'));
 	    if (!contentType) return resp;
 	    if (/json/.test(contentType)) return resp.json();else if (/text/.test(contentType)) return resp.text();else if (/blob/.test(contentType)) return resp.blob();else return resp;
 	};
@@ -142,22 +162,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(ApiService, [{
 	        key: "initialize",
 	        value: function initialize(resource) {
-	            resource.get = this.get.bind(this, resource);
-	            resource.post = this.post.bind(this, resource);
-	            resource.patch = this.patch.bind(this, resource);
-	            resource.put = this.put.bind(this, resource);
-	            resource.delete = this.delete.bind(this, resource);
-	            resource.find = this.find.bind(this, resource);
-	            resource.findAll = this.findAll.bind(this, resource);
-	            resource.create = this.create.bind(this, resource);
-	            resource.update = this.update.bind(this, resource);
-	            resource.destroy = this.destroy.bind(this, resource);
+	            resource.constructor.prototype.get = this.get.bind(this, resource);
+	            resource.constructor.prototype.post = this.post.bind(this, resource);
+	            resource.constructor.prototype.patch = this.patch.bind(this, resource);
+	            resource.constructor.prototype.put = this.put.bind(this, resource);
+	            resource.constructor.prototype.delete = this.delete.bind(this, resource);
+	            resource.constructor.prototype.find = this.find.bind(this, resource);
+	            resource.constructor.prototype.findAll = this.findAll.bind(this, resource);
+	            resource.constructor.prototype.create = this.create.bind(this, resource);
+	            resource.constructor.prototype.update = this.update.bind(this, resource);
+	            resource.constructor.prototype.destroy = this.destroy.bind(this, resource);
 	        }
 	    }, {
 	        key: "createUrl",
 	        value: function createUrl(resource, url) {
-	            var qUrl = Array.isArray(url) ? url.join('/') : url;
-	            return removeSlashes(resource.endpoint) + "/" + removeSlashes(this.basePath) + "/" + removeSlashes(qUrl);
+	            var qUrl = String(Array.isArray(url) ? url.join('/') : url);
+	            return removeSlashes(this.basePath) + "/" + removeSlashes(resource.endpoint) + "/" + removeSlashes(qUrl);
 	        }
 	    }, {
 	        key: "get",
@@ -166,7 +186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
 	                return _this._deserialize(data);
-	            }).mergeMap(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource));
 	        }
 	    }, {
 	        key: "put",
@@ -175,7 +195,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
 	                return _this2._deserialize(data);
-	            }).mergeMap(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource));
 	        }
 	    }, {
 	        key: "patch",
@@ -184,7 +204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
 	                return _this3._deserialize(data);
-	            }).mergeMap(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource));
 	        }
 	    }, {
 	        key: "post",
@@ -193,7 +213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
 	                return _this4._deserialize(data);
-	            }).mergeMap(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource));
 	        }
 	    }, {
 	        key: "delete",
@@ -202,7 +222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
 	                return _this5._deserialize(data);
-	            }).mergeMap(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource));
 	        }
 	    }, {
 	        key: "find",
@@ -264,12 +284,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
 
 /***/ }
 /******/ ])

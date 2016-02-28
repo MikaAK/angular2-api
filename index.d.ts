@@ -1,7 +1,14 @@
 import {Http, RequestOptionsArgs} from 'angular2/http'
 import {Observable} from 'rxjs/Observable'
 
-export const provideApiService
+export interface ApiConfig {
+  basePath?: string
+  deserialize?: ((data: any) => any)
+  serialize?: ((data: any) => any)
+  serializeParams?: ((params: any) => any)
+}
+
+export const provideApiService: ((config: ApiConfig) => Array<any>)
 
 export interface ApiResource {
   idAttribute?: string
@@ -11,17 +18,17 @@ export interface ApiResource {
   serialize?(data: any): any
   serializeParams?(params: any): any
  
-  get?(url: string|string[], params?: RequestOptionsArgs)
-  put?(url: string|string[], data?, params?: RequestOptionsArgs)
-  patch?(url: string|string[], data?, params?: RequestOptionsArgs)
-  post?(url: string|string[], data?, params?: RequestOptionsArgs)
-  delete?(url: string|string[], params?: RequestOptionsArgs)
+  get?(url: string|string[], params?: RequestOptionsArgs): Observable<any>
+  put?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
+  patch?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
+  post?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
+  delete?(url: string|string[], params?: RequestOptionsArgs): Observable<any>
 
-  find?(id: string|number, params?: RequestOptionsArgs)
-  findAll?(params?: RequestOptionsArgs)
-  create?(data, params?: RequestOptionsArgs)
-  update?(data, params?: RequestOptionsArgs)
-  destroy?(id?: string|number|any, params?: RequestOptionsArgs)
+  find?(id: string|number, params?: RequestOptionsArgs): Observable<any>
+  findAll?(params?: RequestOptionsArgs): Observable<any>
+  create?(data, params?: RequestOptionsArgs): Observable<any>
+  update?(data, params?: RequestOptionsArgs): Observable<any>
+  destroy?(id?: string|number|any, params?: RequestOptionsArgs): Observable<any>
 }
 
 export class ApiService {

@@ -3,7 +3,6 @@ import {Http, RequestOptionsArgs, Response, Headers} from 'angular2/http'
 import {ApiResource} from './ApiResource'
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/mergeMap'
 
 const removeSlashes = (url: string): string => {
   if (url.startsWith('/'))
@@ -31,7 +30,7 @@ const serializeParams = (params: any = {}) => {
 }
 
 const deserializeResponse = (resp: Response) => {
-  let contentType = resp && resp.headers && resp.headers.get('Content-Type')
+  let contentType = resp && resp.headers && (resp.headers.get('content-type') || resp.headers.get('Content-Type'))
 
   if (!contentType)
     return resp
@@ -47,7 +46,9 @@ const deserializeResponse = (resp: Response) => {
 }
 
 const resourceDeserialize = (resource) => {
-  return (data) => typeof resource.deserialize === 'function' ? resource.deserialize(data) : data
+  return (data) => {
+    return typeof resource.deserialize === 'function' ? resource.deserialize(data) : data
+  }
 }
 
 @Injectable()
@@ -70,39 +71,39 @@ export class ApiService {
   }
 
   public createUrl(resource: ApiResource, url: string|string[]): string {
-    let qUrl = Array.isArray(url) ? url.join('/') : url
+    let qUrl = String(Array.isArray(url) ? url.join('/') : url)
 
-    return `${removeSlashes(resource.endpoint)}/${removeSlashes(this.basePath)}/${removeSlashes(qUrl)}`
+    return `${removeSlashes(this.basePath)}/${removeSlashes(resource.endpoint)}/${removeSlashes(qUrl)}`
   }
 
   public get(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
     return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
       .map(data => this._deserialize(data))
-      .mergeMap(resourceDeserialize(resource))
+      .map(resourceDeserialize(resource))
   }
 
   public put(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
-      .mergeMap(resourceDeserialize(resource))
+      .map(resourceDeserialize(resource))
   }
 
   public patch(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
-      .mergeMap(resourceDeserialize(resource))
+      .map(resourceDeserialize(resource))
   }
 
   public post(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
-      .mergeMap(resourceDeserialize(resource))
+      .map(resourceDeserialize(resource))
   }
 
   public delete(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
     return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
       .map(data => this._deserialize(data))
-      .mergeMap(resourceDeserialize(resource))
+      .map(resourceDeserialize(resource))
   }
 
   public find(resource: ApiResource, id: number|string|any, params?) {
@@ -142,7 +143,7 @@ export class ApiService {
     return resource.serialize ? resource.serialize(nData) : nData
   }
 
-  private _deserialize(data): any|any[] {
+  private _deserialize(data: any): any|any[] {
     return deserializeResponse(data)
   }
 

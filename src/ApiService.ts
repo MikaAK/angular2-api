@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core'
+import {Injectable, Optional} from 'angular2/core'
 import {Http, RequestOptionsArgs, Response, Headers} from 'angular2/http'
 import {ApiResource} from './ApiResource'
 import {ApiConfig} from './ApiConfig'
@@ -54,7 +54,7 @@ const resourceDeserialize = (resource) => {
 
 @Injectable()
 export class ApiService {
-  constructor(private _http: Http, private _config: ApiConfig) {}
+  constructor(private _http: Http, @Optional() private _config = new ApiConfig({basePath: '/api'})) {}
 
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = String(Array.isArray(url) ? url.join('/') : url)

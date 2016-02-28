@@ -2,7 +2,7 @@ import {Http, RequestOptionsArgs} from 'angular2/http'
 import {Observable} from 'rxjs/Observable'
 
 export interface ApiConfigArgs {
-  basePath: string
+  basePath?: string
   deserialize: ((data: any|any[]) => any|any[])
   serialize: ((data: any|any[]) => any|any[])
   serializeParams: ((params: RequestOptionsArgs) => RequestOptionsArgs)

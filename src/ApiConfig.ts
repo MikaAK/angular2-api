@@ -3,9 +3,9 @@ import {RequestOptionsArgs} from 'angular2/http'
 
 export interface ApiConfigArgs {
   basePath: string
-  deserialize: ((data: any|any[]) => any|any[])
-  serialize: ((data: any|any[]) => any|any[])
-  serializeParams: ((params: RequestOptionsArgs) => RequestOptionsArgs)
+  deserialize?: ((data: any|any[]) => any|any[])
+  serialize?: ((data: any|any[]) => any|any[])
+  serializeParams?: ((params: RequestOptionsArgs) => RequestOptionsArgs)
 }
 
 @Injectable()
@@ -18,7 +18,7 @@ export abstract class AbstractApiConfig {
 
 @Injectable()
 export class ApiConfig implements AbstractApiConfig {
-  public basePath: string = '/api'
+  public basePath: string
 
   constructor(@Optional() {basePath, deserialize, serialize, serializeParams}: ApiConfigArgs) {
     this.basePath = basePath

@@ -84,6 +84,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __metadata = undefined && undefined.__metadata || function (k, v) {
 	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
+	var __param = undefined && undefined.__param || function (paramIndex, decorator) {
+	    return function (target, key) {
+	        decorator(target, key, paramIndex);
+	    };
+	};
 	var core_1 = __webpack_require__(2);
 	var http_1 = __webpack_require__(3);
 	var ApiConfig_1 = __webpack_require__(4);
@@ -117,7 +122,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	};
 	var ApiService = function () {
-	    function ApiService(_http, _config) {
+	    function ApiService(_http) {
+	        var _config = arguments.length <= 1 || arguments[1] === undefined ? new ApiConfig_1.ApiConfig({ basePath: '/api' }) : arguments[1];
+
 	        _classCallCheck(this, ApiService);
 
 	        this._http = _http;
@@ -227,7 +234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return ApiService;
 	}();
-	ApiService = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [http_1.Http, ApiConfig_1.ApiConfig])], ApiService);
+	ApiService = __decorate([core_1.Injectable(), __param(1, core_1.Optional()), __metadata('design:paramtypes', [http_1.Http, Object])], ApiService);
 	exports.ApiService = ApiService;
 
 /***/ },
@@ -285,7 +292,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        _classCallCheck(this, ApiConfig);
 
-	        this.basePath = '/api';
 	        this.basePath = basePath;
 	        this.deserialize = deserialize;
 	        this.serialize = serialize;

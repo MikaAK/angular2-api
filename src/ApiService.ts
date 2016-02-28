@@ -7,10 +7,10 @@ import 'rxjs/add/operator/mergeMap'
 
 const removeSlashes = (url: string): string => {
   if (url.startsWith('/'))
-    url = url.slice(1, url.length - 1)
+    url = url.slice(1, url.length)
 
   if (url.endsWith('/'))
-    url = url.slice(0, url.length - 2)
+    url = url.slice(0, url.length - 1)
 
   return url
 }

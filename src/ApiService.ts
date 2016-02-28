@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core'
 import {Http, RequestOptionsArgs, Response, Headers} from 'angular2/http'
 import {ApiResource} from './ApiResource'
+import {ApiConfig} from './ApiConfig'
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 
@@ -53,27 +54,12 @@ const resourceDeserialize = (resource) => {
 
 @Injectable()
 export class ApiService {
-  public basePath: string = '/api'
-
-  constructor(private _http: Http) {}
-
-  public initialize(resource: ApiResource) {
-    resource.get = this.get.bind(this, resource)
-    resource.post = this.post.bind(this, resource)
-    resource.patch = this.patch.bind(this, resource)
-    resource.put = this.put.bind(this, resource)
-    resource.delete = this.delete.bind(this, resource)
-    resource.find = this.find.bind(this, resource)
-    resource.findAll = this.findAll.bind(this, resource)
-    resource.create = this.create.bind(this, resource)
-    resource.update = this.update.bind(this, resource)
-    resource.destroy = this.destroy.bind(this, resource)
-  }
+  constructor(private _http: Http, private _config: ApiConfig) {}
 
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = String(Array.isArray(url) ? url.join('/') : url)
 
-    return `${removeSlashes(this.basePath)}/${removeSlashes(resource.endpoint)}/${removeSlashes(qUrl)}`
+    return `${removeSlashes(this._config.basePath)}/${removeSlashes(resource.endpoint)}/${removeSlashes(qUrl)}`
   }
 
   public get(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
@@ -138,16 +124,16 @@ export class ApiService {
   }
 
   private _serialize(resource: ApiResource, data): any {
-    var nData = toJSON(data)
+    var nData = resource.serialize ? resource.serialize(nData) : nData
 
-    return resource.serialize ? resource.serialize(nData) : nData
+    return toJSON(this._config.serialize(nData))
   }
 
   private _deserialize(data: any): any|any[] {
-    return deserializeResponse(data)
+    return this._config.deserialize(deserializeResponse(data))
   }
 
   private _serializeParams(params): RequestOptionsArgs {
-    return serializeParams(params)
+    return this._config.serializeParams(serializeParams(params))
   }
 }

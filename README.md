@@ -10,33 +10,29 @@ $ npm i --save angular2-api
 Add this to you're bootstrap file
 ```
 import {ApiService, provideApiService} from 'angular2-api'
-import {MyApi} from './MyApi'
-
-const API_PROVIDERS = [MyApi]
 
 bootstrap(App, [
-  ApiService,
-  ...API_PROVIDERS
+  ApiService
 ])
 
-// Alternitavly to provide custom config you can use 'provideApiService'
+// To provide custom global deserialize/serialize/serializeParams
 bootstrap(App, [
-  provideApiService({
-    baseUrl: 'myUrlBase',
-
-    serialize(data) {
-      return myTransform(data)
-    },
+  provide(ApiConfig, {useValue: new ApiConfig({
+    basePath: '/test',
 
     deserialize(data) {
-      return myTransform(data)
+      return data
+    },
+
+    serialize(data) {
+      return data
     },
 
     serializeParams(data) {
-      return myTransform(data)
+      return data
     }
-  }),
-  ...API_PROVIDERS
+  })}),
+  ApiService
 ])
 ```
 
@@ -48,13 +44,9 @@ import {Injectable} from 'angular2/core'
 import {ApiResource, ApiService} from 'angular2-api'
 
 @Injectable()
-export class MyApi implements ApiResource {
+export class MyResource implements ApiResource {
   endpoint: string = 'my-endpoint'
   idAttribute: string = 'testId' // If not provided will use 'id'
-
-  constructor(apiService: ApiService) {
-    apiService.initialize(this)
-  }
 
   deserialize(data) {
     return data
@@ -63,17 +55,16 @@ export class MyApi implements ApiResource {
   serialize(data) {
     return data
   }
+}
 
-  serializeParams(params) {
-    return params
+export class MyComponent {
+  constructor(apiService: ApiService, myResource: MyResource) {
+    apiService.find(myResource, 1, ...args)
   }
 }
 ```
-after doing this `get/put/post/patch/delete/create/read/update/destroy` will all be put on `MyApi` for use
 
 ## Methods
-***If you use `ApiService.initialize()` and setup you will not have to pass the resource in to apiService***
-
 *For `url` you can pass an array of strings or a string*
 
 - `ApiService.get(resource, url, [params])`

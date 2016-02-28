@@ -1,11 +1,26 @@
 import {Http, RequestOptionsArgs} from 'angular2/http'
 import {Observable} from 'rxjs/Observable'
 
-export interface ApiConfig {
-  basePath?: string
-  deserialize?: ((data: any) => any)
-  serialize?: ((data: any) => any)
-  serializeParams?: ((params: any) => any)
+export interface ApiConfigArgs {
+  basePath: string
+  deserialize: ((data: any|any[]) => any|any[])
+  serialize: ((data: any|any[]) => any|any[])
+  serializeParams: ((params: RequestOptionsArgs) => RequestOptionsArgs)
+}
+
+export abstract class AbstractApiConfig {
+  basePath: string
+  abstract deserialize(data: any|any[]): any|any[] 
+  abstract serialize(data: any|any[]): any|any[]
+  abstract serializeParams(params: RequestOptionsArgs): RequestOptionsArgs
+}
+
+export class ApiConfig {
+  constructor({basePath, deserialize, serialize, serializeParams}: ApiConfigArgs)
+  basePath: string
+  deserialize: ((data: any|any[]) => any|any[])
+  serialize: ((data: any|any[]) => any|any[])
+  serializeParams: ((params: RequestOptionsArgs) => RequestOptionsArgs)
 }
 
 export const provideApiService: ((config: ApiConfig) => Array<any>)
@@ -17,18 +32,6 @@ export interface ApiResource {
   deserialize?(data: any): any
   serialize?(data: any): any
   serializeParams?(params: any): any
- 
-  get?(url: string|string[], params?: RequestOptionsArgs): Observable<any>
-  put?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
-  patch?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
-  post?(url: string|string[], data?, params?: RequestOptionsArgs): Observable<any>
-  delete?(url: string|string[], params?: RequestOptionsArgs): Observable<any>
-
-  find?(id: string|number, params?: RequestOptionsArgs): Observable<any>
-  findAll?(params?: RequestOptionsArgs): Observable<any>
-  create?(data, params?: RequestOptionsArgs): Observable<any>
-  update?(data, params?: RequestOptionsArgs): Observable<any>
-  destroy?(id?: string|number|any, params?: RequestOptionsArgs): Observable<any>
 }
 
 export class ApiService {

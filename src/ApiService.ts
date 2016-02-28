@@ -73,19 +73,19 @@ export class ApiService {
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public put(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
+  public put(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public patch(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
+  public patch(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public post(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any> {
+  public post(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
     return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), params)
       .map(data => this._deserialize(data))
       .mergeMap(resourceDeserialize(resource))
@@ -97,7 +97,7 @@ export class ApiService {
       .mergeMap(resourceDeserialize(resource))
   }
 
-  public find(resource: ApiResource, id: number|string, params?) {
+  public find(resource: ApiResource, id: number|string|any, params?) {
     if (!id)
       throw new Error('You must provide an id')
 
@@ -112,7 +112,7 @@ export class ApiService {
     return this.post(resource, '', data, params)
   }
 
-  public update(resource: ApiResource, data?, params?) {
+  public update(resource: ApiResource, data, params?) {
     let id = data[resource.idAttribute],
         url = id ? id : ''
 

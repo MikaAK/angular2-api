@@ -9,16 +9,17 @@ export interface ApiResource {
   serialize?(data: any): any
   serializeParams?(params: any): any
  
-  get?(url: string|string[], data, params: RequestOptionsArgs)
-  put?(url: string|string[], data, params: RequestOptionsArgs)
-  patch?(url: string|string[], data, params: RequestOptionsArgs)
-  post?(url: string|string[], data, params: RequestOptionsArgs)
-  delete?(url: string|string[], params: RequestOptionsArgs)
-  find?(id: string|number, params: RequestOptionsArgs)
-  findAll?(params: RequestOptionsArgs)
-  create?(data, params: RequestOptionsArgs)
-  update?(data, params: RequestOptionsArgs)
-  destroy?(id: string|number, params: RequestOptionsArgs)
+  get?(url: string|string[], params?: RequestOptionsArgs)
+  put?(url: string|string[], data?, params?: RequestOptionsArgs)
+  patch?(url: string|string[], data?, params?: RequestOptionsArgs)
+  post?(url: string|string[], data?, params?: RequestOptionsArgs)
+  delete?(url: string|string[], params?: RequestOptionsArgs)
+
+  find?(id: string|number, params?: RequestOptionsArgs)
+  findAll?(params?: RequestOptionsArgs)
+  create?(data, params?: RequestOptionsArgs)
+  update?(data, params?: RequestOptionsArgs)
+  destroy?(id?: string|number, params?: RequestOptionsArgs)
 }
 
 export class ApiService {
@@ -32,11 +33,11 @@ export class ApiService {
   patch(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any>
   post(resource: ApiResource, url: string|string[], data: any, params?: RequestOptionsArgs): Observable<any>
   delete(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any>
-  find(resource: ApiResource, id: number|string, params: any): Observable<any>
-  findAll(resource: ApiResource, params: any): Observable<any>
-  create(resource: ApiResource, data: any, params: any): Observable<any>
-  update(resource: ApiResource, data: any, params: any): Observable<any>
-  destroy(resource: ApiResource, id: number|string, params: any): Observable<any>
+  find(resource: ApiResource, id: number|string, params?: any): Observable<any>
+  findAll(resource: ApiResource, params?: any): Observable<any>
+  create(resource: ApiResource, data: any, params?: any): Observable<any>
+  update(resource: ApiResource, data: any, params?: any): Observable<any>
+  destroy(resource: ApiResource, id?: number|string, params?: any): Observable<any>
   private _serialize(resource, data)
   private _deserialize(data)
   private _serializeParams(params)

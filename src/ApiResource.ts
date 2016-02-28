@@ -17,5 +17,5 @@ export interface ApiResource {
   findAll?(params?: RequestOptionsArgs)
   create?(data?, params?: RequestOptionsArgs)
   update?(data, params?: RequestOptionsArgs)
-  destroy?(id?: string|number, params?: RequestOptionsArgs)
+  destroy?(id?: string|number|any, params?: RequestOptionsArgs)
 }

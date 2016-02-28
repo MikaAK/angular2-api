@@ -19,7 +19,7 @@ export interface ApiResource {
   findAll?(params?: RequestOptionsArgs)
   create?(data, params?: RequestOptionsArgs)
   update?(data, params?: RequestOptionsArgs)
-  destroy?(id?: string|number, params?: RequestOptionsArgs)
+  destroy?(id?: string|number|any, params?: RequestOptionsArgs)
 }
 
 export class ApiService {
@@ -37,7 +37,7 @@ export class ApiService {
   findAll(resource: ApiResource, params?: any): Observable<any>
   create(resource: ApiResource, data: any, params?: any): Observable<any>
   update(resource: ApiResource, data: any, params?: any): Observable<any>
-  destroy(resource: ApiResource, id?: number|string, params?: any): Observable<any>
+  destroy(resource: ApiResource, id?: number|string|any, params?: any): Observable<any>
   private _serialize(resource, data)
   private _deserialize(data)
   private _serializeParams(params)

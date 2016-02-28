@@ -44,7 +44,7 @@ const resourceDeserialize = (resource) => {
 
 @Injectable()
 export class ApiService {
-  public basePath: string = '/'
+  public basePath: string = '/api'
 
   constructor(private _http: Http) {}
 

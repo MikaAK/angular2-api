@@ -134,7 +134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _classCallCheck(this, ApiService);
 
 	        this._http = _http;
-	        this.basePath = '/';
+	        this.basePath = '/api';
 	    }
 
 	    _createClass(ApiService, [{

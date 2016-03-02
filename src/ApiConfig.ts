@@ -22,9 +22,15 @@ export class ApiConfig implements AbstractApiConfig {
 
   constructor(@Optional() {basePath, deserialize, serialize, serializeParams}: ApiConfigArgs) {
     this.basePath = basePath
-    this.deserialize = deserialize
-    this.serialize = serialize
-    this.serializeParams = serializeParams
+
+    if (deserialize)
+      this.deserialize = deserialize
+
+    if (serialize)
+      this.serialize = serialize
+
+    if (serializeParams)
+      this.serializeParams = serializeParams
   }
 
   public deserialize(data: any|any[]): any|any[] {

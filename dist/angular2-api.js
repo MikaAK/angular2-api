@@ -293,9 +293,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _classCallCheck(this, ApiConfig);
 
 	        this.basePath = basePath;
-	        this.deserialize = deserialize;
-	        this.serialize = serialize;
-	        this.serializeParams = serializeParams;
+	        if (deserialize) this.deserialize = deserialize;
+	        if (serialize) this.serialize = serialize;
+	        if (serializeParams) this.serializeParams = serializeParams;
 	    }
 
 	    _createClass(ApiConfig, [{

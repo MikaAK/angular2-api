@@ -46,15 +46,12 @@ const deserializeResponse = (resp: Response) => {
     return resp
 }
 
-const resourceDeserialize = (resource) => {
-  return (data) => {
-    return typeof resource.deserialize === 'function' ? resource.deserialize(data) : data
-  }
-}
+const runTransformIfHas = (transformBase, method, data) => typeof transformBase[method] === 'function' ? transformBase[method](data) : data
+const resourceDeserialize = (resource) => (data) => runTransformIfHas(resource, 'deserialize', data)
 
 @Injectable()
 export class ApiService {
-  constructor(private _http: Http, @Optional() private _config = new ApiConfig({basePath: '/api'})) {}
+  constructor(private _http: Http, @Optional() private _config: ApiConfig = new ApiConfig({basePath: '/api'})) {}
 
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = String(Array.isArray(url) ? url.join('/') : url)
@@ -124,16 +121,14 @@ export class ApiService {
   }
 
   private _serialize(resource: ApiResource, data): any {
-    var nData = resource.serialize ? resource.serialize(nData) : nData
-
-    return toJSON(this._config.serialize(nData))
+    return toJSON(runTransformIfHas(this._config, 'serialize', runTransformIfHas(resource, 'serialize', data)))
   }
 
   private _deserialize(data: any): any|any[] {
-    return this._config.deserialize(deserializeResponse(data))
+    return runTransformIfHas(this._config, 'deserialize', deserializeResponse(data))
   }
 
   private _serializeParams(params): RequestOptionsArgs {
-    return this._config.serializeParams(serializeParams(params))
+    return runTransformIfHas(this._config, 'serializeParams', serializeParams(params))
   }
 }

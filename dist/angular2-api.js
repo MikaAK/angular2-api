@@ -234,7 +234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return ApiService;
 	}();
-	ApiService = __decorate([core_1.Injectable(), __param(1, core_1.Optional()), __metadata('design:paramtypes', [http_1.Http, Object])], ApiService);
+	ApiService = __decorate([core_1.Injectable(), __param(1, core_1.Optional()), __metadata('design:paramtypes', [http_1.Http, ApiConfig_1.ApiConfig])], ApiService);
 	exports.ApiService = ApiService;
 
 /***/ },

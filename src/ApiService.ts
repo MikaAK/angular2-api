@@ -6,6 +6,9 @@ import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 
 const removeSlashes = (url: string): string => {
+  if (!url)
+    return url
+
   if (url.startsWith('/'))
     url = url.slice(1, url.length)
 

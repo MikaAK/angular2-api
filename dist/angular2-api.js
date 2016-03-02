@@ -94,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ApiConfig_1 = __webpack_require__(4);
 	__webpack_require__(5);
 	var removeSlashes = function removeSlashes(url) {
+	    if (!url) return url;
 	    if (url.startsWith('/')) url = url.slice(1, url.length);
 	    if (url.endsWith('/')) url = url.slice(0, url.length - 1);
 	    return url;

@@ -116,15 +116,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!contentType) return resp;
 	    if (/json/.test(contentType)) return resp.json();else if (/text/.test(contentType)) return resp.text();else if (/blob/.test(contentType)) return resp.blob();else return resp;
 	};
+	var runTransformIfHas = function runTransformIfHas(transformBase, method, data) {
+	    return typeof transformBase[method] === 'function' ? transformBase[method](data) : data;
+	};
 	var resourceDeserialize = function resourceDeserialize(resource) {
 	    return function (data) {
-	        return typeof resource.deserialize === 'function' ? resource.deserialize(data) : data;
+	        return runTransformIfHas(resource, 'deserialize', data);
 	    };
 	};
 	var ApiService = function () {
-	    function ApiService(_http) {
-	        var _config = arguments.length <= 1 || arguments[1] === undefined ? new ApiConfig_1.ApiConfig({ basePath: '/api' }) : arguments[1];
-
+	    function ApiService(_http, _config) {
 	        _classCallCheck(this, ApiService);
 
 	        this._http = _http;
@@ -217,18 +218,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "_serialize",
 	        value: function _serialize(resource, data) {
-	            var nData = resource.serialize ? resource.serialize(nData) : nData;
-	            return toJSON(this._config.serialize(nData));
+	            return toJSON(runTransformIfHas(this._config, 'serialize', runTransformIfHas(resource, 'serialize', data)));
 	        }
 	    }, {
 	        key: "_deserialize",
 	        value: function _deserialize(data) {
-	            return this._config.deserialize(deserializeResponse(data));
+	            return runTransformIfHas(this._config, 'deserialize', deserializeResponse(data));
 	        }
 	    }, {
 	        key: "_serializeParams",
 	        value: function _serializeParams(params) {
-	            return this._config.serializeParams(serializeParams(params));
+	            return runTransformIfHas(this._config, 'serializeParams', serializeParams(params));
 	        }
 	    }]);
 

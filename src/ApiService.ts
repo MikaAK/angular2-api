@@ -51,7 +51,7 @@ const resourceDeserialize = (resource) => (data) => runTransformIfHas(resource, 
 
 @Injectable()
 export class ApiService {
-  constructor(private _http: Http, @Optional() private _config: ApiConfig = new ApiConfig({basePath: '/api'})) {}
+  constructor(private _http: Http, @Optional() private _config: ApiConfig) {}
 
   public createUrl(resource: ApiResource, url: string|string[]): string {
     let qUrl = String(Array.isArray(url) ? url.join('/') : url)

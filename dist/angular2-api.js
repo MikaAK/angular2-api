@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"));
+		module.exports = factory(require("angular2/core"), require("angular2/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/observable/throw"));
 	else if(typeof define === 'function' && define.amd)
-		define(["angular2/core", "angular2/http", "rxjs/add/operator/map"], factory);
+		define(["angular2/core", "angular2/http", "rxjs/Observable", "rxjs/add/operator/map", "rxjs/add/observable/throw"], factory);
 	else if(typeof exports === 'object')
-		exports["angular2-api"] = factory(require("angular2/core"), require("angular2/http"), require("rxjs/add/operator/map"));
+		exports["angular2-api"] = factory(require("angular2/core"), require("angular2/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/observable/throw"));
 	else
-		root["angular2-api"] = factory(root["angular2/core"], root["angular2/http"], root["rxjs/add/operator/map"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__) {
+		root["angular2-api"] = factory(root["angular2/core"], root["angular2/http"], root["rxjs/Observable"], root["rxjs/add/operator/map"], root["rxjs/add/observable/throw"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -92,7 +92,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var core_1 = __webpack_require__(2);
 	var http_1 = __webpack_require__(3);
 	var ApiConfig_1 = __webpack_require__(4);
-	__webpack_require__(5);
+	var Observable_1 = __webpack_require__(5);
+	__webpack_require__(6);
+	__webpack_require__(7);
 	var removeSlashes = function removeSlashes(url) {
 	    if (!url) return url;
 	    if (url.startsWith('/')) url = url.slice(1, url.length);
@@ -106,10 +108,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return data;
 	    }
 	};
+	var createParams = function createParams(headers) {};
 	var serializeParams = function serializeParams() {
 	    var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    if (!params.headers) params.headers = new http_1.Headers({ 'Content-Type': 'applications/json' });
+	    if (!params) params = {};
+	    var _params = params;
+	    var headers = _params.headers;
+
+	    if (!headers) {
+	        params.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+	    } else if (headers && !headers.get('Content-Type')) {
+	        headers.set('Content-Type', 'application/json');
+	    }
 	    return params;
 	};
 	var deserializeResponse = function deserializeResponse(resp) {
@@ -146,34 +157,42 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
 	                return _this._deserialize(data);
-	            }).map(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource)).catch(function (error) {
+	                return _this._catchError(error);
+	            });
 	        }
 	    }, {
 	        key: "put",
 	        value: function put(resource, url, data, params) {
 	            var _this2 = this;
 
-	            return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
+	            return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
 	                return _this2._deserialize(data);
-	            }).map(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource)).catch(function (error) {
+	                return _this2._catchError(error);
+	            });
 	        }
 	    }, {
 	        key: "patch",
 	        value: function patch(resource, url, data, params) {
 	            var _this3 = this;
 
-	            return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
+	            return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
 	                return _this3._deserialize(data);
-	            }).map(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource)).catch(function (error) {
+	                return _this3._catchError(error);
+	            });
 	        }
 	    }, {
 	        key: "post",
 	        value: function post(resource, url, data, params) {
 	            var _this4 = this;
 
-	            return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), params).map(function (data) {
+	            return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
 	                return _this4._deserialize(data);
-	            }).map(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource)).catch(function (error) {
+	                return _this4._catchError(error);
+	            });
 	        }
 	    }, {
 	        key: "delete",
@@ -182,7 +201,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
 	                return _this5._deserialize(data);
-	            }).map(resourceDeserialize(resource));
+	            }).map(resourceDeserialize(resource)).catch(function (error) {
+	                return _this5._catchError(error);
+	            });
 	        }
 	    }, {
 	        key: "find",
@@ -230,6 +251,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "_serializeParams",
 	        value: function _serializeParams(params) {
 	            return runTransformIfHas(this._config, 'serializeParams', serializeParams(params));
+	        }
+	    }, {
+	        key: "_catchError",
+	        value: function _catchError(error) {
+	            return Observable_1.Observable.throw(this._deserialize(error));
 	        }
 	    }]);
 
@@ -326,6 +352,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
 
 /***/ }
 /******/ ])

@@ -39,6 +39,7 @@ var config = {
     'angular2/http',
     'rxjs/add/operator/map',
     'rxjs/add/operator/mergeMap',
+    'rxjs/add/observable/throw',
     'rxjs/Observable',
     'rxjs/observable'
   ],

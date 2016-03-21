@@ -224,7 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "update",
 	        value: function update(resource, data, params) {
-	            var id = data[resource.idAttribute],
+	            var id = data[resource.idAttribute || 'id'],
 	                url = id ? id : '';
 	            return this.put(resource, url, data, params);
 	        }

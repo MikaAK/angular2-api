@@ -125,7 +125,7 @@ export class ApiService {
   }
 
   public update(resource: ApiResource, data, params?) {
-    let id = data[resource.idAttribute],
+    let id = data[resource.idAttribute || 'id'],
         url = id ? id : ''
 
     return this.put(resource, url, data, params)

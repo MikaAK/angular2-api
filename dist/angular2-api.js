@@ -255,7 +255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "_catchError",
 	        value: function _catchError(error) {
-	            return Observable_1.Observable.throw(this._deserialize(error));
+	            if (error instanceof Error) throw error;else return Observable_1.Observable.throw(this._deserialize(error));
 	        }
 	    }]);
 

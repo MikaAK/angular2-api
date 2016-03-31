@@ -153,6 +153,9 @@ export class ApiService {
   }
 
   private _catchError(error) {
-    return Observable.throw(this._deserialize(error))
+    if (error instanceof Error)
+      throw error
+    else
+      return Observable.throw(this._deserialize(error))
   }
 }

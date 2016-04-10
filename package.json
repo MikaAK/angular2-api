@@ -1,6 +1,6 @@
 {
   "name": "angular2-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Api service for angular to work with REST resources",
   "main": "dist/angular2-api.js",
   "scripts": {

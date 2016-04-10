@@ -155,7 +155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function get(resource, url, params) {
 	            var _this = this;
 
-	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
+	            return this._http.get(this.createUrl(resource, url), this._serializeParams(resource, params)).map(function (data) {
 	                return _this._deserialize(data);
 	            }).map(resourceDeserialize(resource)).catch(function (error) {
 	                return _this._catchError(error);
@@ -166,7 +166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function put(resource, url, data, params) {
 	            var _this2 = this;
 
-	            return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
+	            return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params)).map(function (data) {
 	                return _this2._deserialize(data);
 	            }).map(resourceDeserialize(resource)).catch(function (error) {
 	                return _this2._catchError(error);
@@ -177,7 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function patch(resource, url, data, params) {
 	            var _this3 = this;
 
-	            return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
+	            return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params)).map(function (data) {
 	                return _this3._deserialize(data);
 	            }).map(resourceDeserialize(resource)).catch(function (error) {
 	                return _this3._catchError(error);
@@ -188,7 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function post(resource, url, data, params) {
 	            var _this4 = this;
 
-	            return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params)).map(function (data) {
+	            return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params)).map(function (data) {
 	                return _this4._deserialize(data);
 	            }).map(resourceDeserialize(resource)).catch(function (error) {
 	                return _this4._catchError(error);
@@ -199,7 +199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function _delete(resource, url, params) {
 	            var _this5 = this;
 
-	            return this._http.get(this.createUrl(resource, url), this._serializeParams(params)).map(function (data) {
+	            return this._http.get(this.createUrl(resource, url), this._serializeParams(resource, params)).map(function (data) {
 	                return _this5._deserialize(data);
 	            }).map(resourceDeserialize(resource)).catch(function (error) {
 	                return _this5._catchError(error);
@@ -249,8 +249,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: "_serializeParams",
-	        value: function _serializeParams(params) {
-	            return runTransformIfHas(this._config, 'serializeParams', serializeParams(params));
+	        value: function _serializeParams(resource, params) {
+	            params = runTransformIfHas(this._config, 'serializeParams', serializeParams(params));
+	            return runTransformIfHas(resource, 'serializeParams', params);
 	        }
 	    }, {
 	        key: "_catchError",

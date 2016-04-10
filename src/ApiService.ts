@@ -75,35 +75,35 @@ export class ApiService {
   }
 
   public get(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
-    return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
+    return this._http.get(this.createUrl(resource, url), this._serializeParams(resource, params))
       .map(data => this._deserialize(data))
       .map(resourceDeserialize(resource))
       .catch(error => this._catchError(error))
   }
 
   public put(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
-    return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params))
+    return this._http.put(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params))
       .map(data => this._deserialize(data))
       .map(resourceDeserialize(resource))
       .catch(error => this._catchError(error))
   }
 
   public patch(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
-    return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params))
+    return this._http.patch(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params))
       .map(data => this._deserialize(data))
       .map(resourceDeserialize(resource))
       .catch(error => this._catchError(error))
   }
 
   public post(resource: ApiResource, url: string|string[], data?: any, params?: RequestOptionsArgs): Observable<any> {
-    return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(params))
+    return this._http.post(this.createUrl(resource, url), this._serialize(resource, data), this._serializeParams(resource, params))
       .map(data => this._deserialize(data))
       .map(resourceDeserialize(resource))
       .catch(error => this._catchError(error))
   }
 
   public delete(resource: ApiResource, url: string|string[], params?: RequestOptionsArgs): Observable<any> {
-    return this._http.get(this.createUrl(resource, url), this._serializeParams(params))
+    return this._http.get(this.createUrl(resource, url), this._serializeParams(resource, params))
       .map(data => this._deserialize(data))
       .map(resourceDeserialize(resource))
       .catch(error => this._catchError(error))
@@ -148,8 +148,10 @@ export class ApiService {
     return runTransformIfHas(this._config, 'deserialize', deserializeResponse(data))
   }
 
-  private _serializeParams(params): RequestOptionsArgs {
-    return runTransformIfHas(this._config, 'serializeParams', serializeParams(params))
+  private _serializeParams(resource, params): RequestOptionsArgs {
+    params = runTransformIfHas(this._config, 'serializeParams', serializeParams(params))
+
+    return runTransformIfHas(resource, 'serializeParams', params)
   }
 
   private _catchError(error) {

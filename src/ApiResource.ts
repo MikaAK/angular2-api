@@ -6,4 +6,5 @@ export interface ApiResource {
  
   deserialize?(data: any): any
   serialize?(data: any): any
+  serializeParams?(params: RequestOptionsArgs): any
 }

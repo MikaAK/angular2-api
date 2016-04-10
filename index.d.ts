@@ -31,7 +31,7 @@ export interface ApiResource {
  
   deserialize?(data: any): any
   serialize?(data: any): any
-  serializeParams?(params: any): any
+  serializeParams?(params: RequestOptionsArgs): RequestOptionsArgs
 }
 
 export class ApiService {

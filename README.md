@@ -55,6 +55,10 @@ export class MyResource implements ApiResource {
   serialize(data) {
     return data
   }
+  
+  serializeParams(params) {
+    return params
+  }
 }
 
 export class MyComponent {

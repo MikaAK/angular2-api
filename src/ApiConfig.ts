@@ -1,5 +1,5 @@
-import {Injectable, Optional} from 'angular2/core'
-import {RequestOptionsArgs} from 'angular2/http'
+import {Injectable, Optional} from '@angular/core'
+import {RequestOptionsArgs} from '@angular/http'
 
 export interface ApiConfigArgs {
   basePath: string

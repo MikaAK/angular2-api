@@ -1,9 +1,10 @@
-import {Injectable, Optional} from 'angular2/core'
-import {Http, RequestOptionsArgs, Response, Headers} from 'angular2/http'
+import {Injectable, Optional} from '@angular/core'
+import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http'
 import {ApiResource} from './ApiResource'
 import {ApiConfig} from './ApiConfig'
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 import 'rxjs/add/observable/throw'
 
 const removeSlashes = (url: string): string => {

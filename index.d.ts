@@ -1,4 +1,4 @@
-import {Http, RequestOptionsArgs} from 'angular2/http'
+import {Http, RequestOptionsArgs} from '@angular/http'
 import {Observable} from 'rxjs/Observable'
 
 export interface ApiConfigArgs {

@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("angular2/core"), require("angular2/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/observable/throw"));
+		module.exports = factory(require("@angular/core"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/operator/catch"), require("rxjs/add/observable/throw"));
 	else if(typeof define === 'function' && define.amd)
-		define(["angular2/core", "angular2/http", "rxjs/Observable", "rxjs/add/operator/map", "rxjs/add/observable/throw"], factory);
+		define(["@angular/core", "@angular/http", "rxjs/Observable", "rxjs/add/operator/map", "rxjs/add/operator/catch", "rxjs/add/observable/throw"], factory);
 	else if(typeof exports === 'object')
-		exports["angular2-api"] = factory(require("angular2/core"), require("angular2/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/observable/throw"));
+		exports["angular2-api"] = factory(require("@angular/core"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/operator/catch"), require("rxjs/add/observable/throw"));
 	else
-		root["angular2-api"] = factory(root["angular2/core"], root["angular2/http"], root["rxjs/Observable"], root["rxjs/add/operator/map"], root["rxjs/add/observable/throw"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__) {
+		root["angular2-api"] = factory(root["@angular/core"], root["@angular/http"], root["rxjs/Observable"], root["rxjs/add/operator/map"], root["rxjs/add/operator/catch"], root["rxjs/add/observable/throw"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,6 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Observable_1 = __webpack_require__(5);
 	__webpack_require__(6);
 	__webpack_require__(7);
+	__webpack_require__(8);
 	var removeSlashes = function removeSlashes(url) {
 	    if (!url) return url;
 	    if (url.startsWith('/')) url = url.slice(1, url.length);
@@ -365,6 +366,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
 
 /***/ }
 /******/ ])

@@ -35,10 +35,11 @@ var config = {
   },
 
   externals: [
-    'angular2/core',
-    'angular2/http',
+    '@angular/core',
+    '@angular/http',
     'rxjs/add/operator/map',
     'rxjs/add/operator/mergeMap',
+    'rxjs/add/operator/catch',
     'rxjs/add/observable/throw',
     'rxjs/Observable',
     'rxjs/observable'

@@ -1,4 +1,4 @@
-import {RequestOptionsArgs} from 'angular2/http'
+import {RequestOptionsArgs} from '@angular/http'
 
 export interface ApiResource {
   idAttribute?: string

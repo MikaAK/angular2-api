@@ -8,7 +8,7 @@ $ npm i --save angular2-api
 ```
 
 Add this to you're bootstrap file
-```
+```typescript
 import {ApiService, provideApiService} from 'angular2-api'
 
 bootstrap(App, [
@@ -39,7 +39,7 @@ bootstrap(App, [
 ## Using ApiService
 The most common use case for api service would be to create resources
 
-```javascript
+```typescript
 import {Injectable} from 'angular2/core'
 import {ApiResource, ApiService} from 'angular2-api'
 

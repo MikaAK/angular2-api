@@ -17,21 +17,22 @@ bootstrap(App, [
 
 // To provide custom global deserialize/serialize/serializeParams
 bootstrap(App, [
-  provide(ApiConfig, {useValue: new ApiConfig({
-    basePath: '/test',
+  { provide: ApiConfig, useValue: new ApiConfig({
+      basePath: '/test',
 
-    deserialize(data) {
-      return data
-    },
+      deserialize(data) {
+        return data
+      },
 
-    serialize(data) {
-      return data
-    },
+      serialize(data) {
+        return data
+      },
 
-    serializeParams(data) {
-      return data
-    }
-  })}),
+      serializeParams(data) {
+        return data
+      }
+    })
+  }
   ApiService
 ])
 ```

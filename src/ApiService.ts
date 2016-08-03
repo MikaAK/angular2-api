@@ -111,7 +111,7 @@ export class ApiService {
   }
 
   public find(resource: ApiResource, id: number|string|any, params?) {
-    if (!id)
+    if (typeof id === 'undefined')
       throw new Error('You must provide an id')
 
     return this.get(resource, <string>id, params)

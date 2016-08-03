@@ -7,7 +7,7 @@
 		exports["angular2-api"] = factory(require("@angular/core"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/add/operator/map"), require("rxjs/add/operator/catch"), require("rxjs/add/observable/throw"));
 	else
 		root["angular2-api"] = factory(root["@angular/core"], root["@angular/http"], root["rxjs/Observable"], root["rxjs/add/operator/map"], root["rxjs/add/operator/catch"], root["rxjs/add/observable/throw"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,15 +54,23 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	__webpack_require__(1);
+	(function webpackMissingModule() { throw new Error("Cannot find module \"build\""); }());
 
-	var ApiService_1 = __webpack_require__(1);
-	exports.ApiService = ApiService_1.ApiService;
-	var ApiConfig_1 = __webpack_require__(4);
-	exports.ApiConfig = ApiConfig_1.ApiConfig;
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var ApiService_1 = __webpack_require__(2);
+	exports.ApiService = ApiService_1.ApiService;
+	var ApiConfig_1 = __webpack_require__(5);
+	exports.ApiConfig = ApiConfig_1.ApiConfig;
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -89,13 +97,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        decorator(target, key, paramIndex);
 	    };
 	};
-	var core_1 = __webpack_require__(2);
-	var http_1 = __webpack_require__(3);
-	var ApiConfig_1 = __webpack_require__(4);
-	var Observable_1 = __webpack_require__(5);
-	__webpack_require__(6);
+	var core_1 = __webpack_require__(3);
+	var http_1 = __webpack_require__(4);
+	var ApiConfig_1 = __webpack_require__(5);
+	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
+	__webpack_require__(9);
 	var removeSlashes = function removeSlashes(url) {
 	    if (!url) return url;
 	    if (url.startsWith('/')) url = url.slice(1, url.length);
@@ -209,7 +217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "find",
 	        value: function find(resource, id, params) {
-	            if (!id) throw new Error('You must provide an id');
+	            if (typeof id === 'undefined') throw new Error('You must provide an id');
 	            return this.get(resource, id, params);
 	        }
 	    }, {
@@ -267,12 +275,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ApiService = ApiService;
 
 /***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -280,6 +282,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -306,7 +314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        decorator(target, key, paramIndex);
 	    };
 	};
-	var core_1 = __webpack_require__(2);
+	var core_1 = __webpack_require__(3);
 	var AbstractApiConfig = function AbstractApiConfig() {
 	    _classCallCheck(this, AbstractApiConfig);
 	};
@@ -350,12 +358,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ApiConfig = ApiConfig;
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
-
-/***/ },
 /* 6 */
 /***/ function(module, exports) {
 
@@ -372,6 +374,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_9__;
 
 /***/ }
 /******/ ])

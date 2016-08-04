@@ -209,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "find",
 	        value: function find(resource, id, params) {
-	            if (!id) throw new Error('You must provide an id');
+	            if (typeof id === 'undefined') throw new Error('You must provide an id');
 	            return this.get(resource, id, params);
 	        }
 	    }, {

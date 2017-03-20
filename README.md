@@ -7,9 +7,9 @@ Api service for angular2 to work with REST resources
 $ npm i --save angular2-api
 ```
 
-Add this to you're bootstrap file
+Add this to your bootstrap file
 ```typescript
-import {ApiService, provideApiService} from 'angular2-api'
+import { ApiService, provideApiService } from 'angular2-api';
 
 bootstrap(App, [
   ApiService
@@ -56,7 +56,7 @@ export class MyResource implements ApiResource {
   serialize(data) {
     return data
   }
-  
+
   serializeParams(params) {
     return params
   }
